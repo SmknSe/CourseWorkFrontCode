@@ -1,6 +1,6 @@
 <template>
   <div class="burger-menu" :class="{ 'burger-menu_active': isActive }">
-    <button @click="burgerMenu" class="burger-menu_button">
+    <button @click="toggleMenu" class="burger-menu_button">
       <span class="burger-menu_lines"></span>
     </button>
     <nav class="burger-menu_nav">
@@ -31,12 +31,6 @@ export default {
   },
   components: {},
   methods: {
-    burgerMenu() {
-      let menu = document.querySelector('.burger-menu');
-      let links = menu.querySelector('.burger-menu_link');
-      links.addEventListener('click', this.toggleMenu());
-
-    },
     toggleMenu() {
       this.isScroll = !this.isScroll
       if (!this.isScroll) document.body.style.overflowY = 'hidden'
