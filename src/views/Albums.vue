@@ -1,26 +1,25 @@
 <template>
-    <div id="#albums">
+  <div id="#albums">
     <header>
       <Navbar></Navbar>
     </header>
     <div class="flex">
-    <body>
-      <h1>Информация о самых популярных альбомах всего мира</h1>
-      <div class="input_wrap">
+
+      <body>
+        <h1>Информация о самых популярных альбомах всего мира</h1>
+        <div class="input_wrap">
           <div class="center">
             <font-awesome-icon icon="fa-solid fa-magnifying-glass" id="search_img" />
           </div>
           <input type="text" id="search" placeholder="Введите название альбома" ref="search">
         </div>
-      <div class="gallery_list">
-        <Album_card 
-        v-for="i in 18" :key="i"
-         />
-      </div>
-    </body>
-    <footer>
-      <span>© 2022 IN TUNE ALL RIGHTS RESERVED PRIVACY POLICY</span>
-    </footer>
+        <div class="gallery_list">
+          <Album_card v-for="i in 18" :key="i" />
+        </div>
+      </body>
+      <footer>
+        <span>© 2022 IN TUNE ALL RIGHTS RESERVED PRIVACY POLICY</span>
+      </footer>
     </div>
   </div>
 </template>
@@ -29,10 +28,10 @@
 import Navbar from '@/components/Navbar.vue';
 import Album_card from '@/components/Album_card.vue';
 export default {
-    name: "About",
-    components:{Navbar,Album_card},
-    mounted() {
-    search.addEventListener("keyup", (e) => {
+  name: "About",
+  components: { Navbar, Album_card },
+  methods: {
+    makeSearch() {
       let images = document.querySelectorAll(".img_wrapper");
       let searchValue = search.value
       if (search.value == "") {
@@ -49,8 +48,13 @@ export default {
         }
         image.style.display = "none";
       });
-      console.log(value);
-    });
+    }
+  },
+  mounted() {
+    search.addEventListener("keyup", this.makeSearch);
+  },
+  beforeUnmount() {
+    search.removeEventListener("keyup", this.makeSearch)
   }
 }
 </script>
@@ -63,7 +67,7 @@ export default {
   color: white;
 }
 
-.flex{
+.flex {
   height: 100%;
   min-height: calc(100vh - 150px);
   display: flex;
@@ -72,6 +76,7 @@ export default {
   top: 150px;
   justify-content: space-between;
 }
+
 .input_wrap {
   position: relative;
   display: flex;
@@ -111,8 +116,8 @@ body {
   gap: 40px;
 }
 
-body h1{
-  padding: 0 7.1vw; 
+body h1 {
+  padding: 0 7.1vw;
   font-size: 2.88vw;
 }
 
@@ -140,22 +145,22 @@ body h1{
   margin-bottom: 100px;
 }
 
-footer{
+footer {
   width: 100%;
   text-align: center;
   filter: brightness(.5);
 }
 
-@media (max-width: 1150px){
-  body h1{
+@media (max-width: 1150px) {
+  body h1 {
     font-size: 35px;
   }
 }
 
 
 
-@media(max-width: 480px){
-  footer{
+@media(max-width: 480px) {
+  footer {
     font-size: xx-small;
   }
 
