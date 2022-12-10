@@ -1,5 +1,5 @@
 <template>
-  <div class="img_wrapper">
+  <div class="img_wrapper" :name="name">
     <h1 class="like" @click="like" ref="like">
       <font-awesome-icon icon="fa-regular fa-heart" class="like_btn" />
       <font-awesome-icon icon="fa-solid fa-heart" class="unlike_btn" />
@@ -25,6 +25,11 @@ export default {
   methods: {
     like() {
       this.$refs.like.classList.toggle('liked');
+    }
+  },
+  data(){
+    return{
+      name: this.artist.name
     }
   }
 }

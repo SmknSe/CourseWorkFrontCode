@@ -1,5 +1,5 @@
 <template>
-  <div class="img_wrapper">
+  <div class="img_wrapper" name="bandana">
     <h1 class="like" @click="like" ref="like">
       <font-awesome-icon icon="fa-regular fa-heart" class="like_btn" />
       <font-awesome-icon icon="fa-solid fa-heart" class="unlike_btn" />
