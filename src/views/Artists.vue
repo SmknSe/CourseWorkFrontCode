@@ -32,6 +32,24 @@ export default {
   name: "Artists",
   components: { Artist_card, Navbar },
   methods: {
+    makeSearch() {
+      let images = document.querySelectorAll(".img_wrapper");
+      let searchValue = search.value
+      if (search.value == "") {
+        images.forEach((image) => {
+          image.style.display = "block";
+        });
+        return
+      }
+      let value = searchValue.toLowerCase();
+      images.forEach((image) => {
+        let name = image.getAttribute('name').toLowerCase()
+        if (name.includes(value)) {
+          return (image.style.display = "block");
+        }
+        image.style.display = "none";
+      });
+    }
   },
   data() {
     return {
@@ -58,25 +76,10 @@ export default {
     }
   },
   mounted() {
-    search.addEventListener("keyup", (e) => {
-      let images = document.querySelectorAll(".img_wrapper");
-      let searchValue = search.value
-      if (search.value == "") {
-        images.forEach((image) => {
-          image.style.display = "block";
-        });
-        return
-      }
-      let value = searchValue.toLowerCase();
-      images.forEach((image) => {
-        let name = image.getAttribute('name').toLowerCase()
-        if (name.includes(value)) {
-          return (image.style.display = "block");
-        }
-        image.style.display = "none";
-      });
-      console.log(value);
-    });
+    search.addEventListener("keyup", this.makeSearch);
+  },
+  beforeUnmount() {
+    search.removeEventListener("keyup",this.makeSearch)
   }
 }
 </script>
