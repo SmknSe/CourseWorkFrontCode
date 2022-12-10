@@ -1,11 +1,17 @@
 <template>
-    <div class="flex">
+    <div id="#albums">
     <header>
       <Navbar></Navbar>
     </header>
-
+    <div class="flex">
     <body>
       <h1>Информация о самых популярных альбомах всего мира</h1>
+      <div class="input_wrap">
+          <div class="center">
+            <font-awesome-icon icon="fa-solid fa-magnifying-glass" id="search_img" />
+          </div>
+          <input type="text" id="search" placeholder="Введите название альбома" ref="search">
+        </div>
       <div class="gallery_list">
         <Album_card 
         v-for="i in 18" :key="i"
@@ -15,6 +21,7 @@
     <footer>
       <span>© 2022 IN TUNE ALL RIGHTS RESERVED PRIVACY POLICY</span>
     </footer>
+    </div>
   </div>
 </template>
     
@@ -23,7 +30,28 @@ import Navbar from '@/components/Navbar.vue';
 import Album_card from '@/components/Album_card.vue';
 export default {
     name: "About",
-    components:{Navbar,Album_card}
+    components:{Navbar,Album_card},
+    mounted() {
+    search.addEventListener("keyup", (e) => {
+      let images = document.querySelectorAll(".img_wrapper");
+      let searchValue = search.value
+      if (search.value == "") {
+        images.forEach((image) => {
+          image.style.display = "block";
+        });
+        return
+      }
+      let value = searchValue.toLowerCase();
+      images.forEach((image) => {
+        let name = image.getAttribute('name').toLowerCase()
+        if (name.includes(value)) {
+          return (image.style.display = "block");
+        }
+        image.style.display = "none";
+      });
+      console.log(value);
+    });
+  }
 }
 </script>
     
@@ -36,9 +64,44 @@ export default {
 }
 
 .flex{
+  height: 100%;
+  min-height: calc(100vh - 150px);
   display: flex;
   flex-direction: column;
-  gap: 150px;
+  position: relative;
+  top: 150px;
+  justify-content: space-between;
+}
+.input_wrap {
+  position: relative;
+  display: flex;
+  margin-left: 7.1vw;
+  width: 85%;
+  min-width: 250px;
+  height: 50px;
+  box-shadow: 0px 0px 10px 1px rgb(135, 135, 210);
+  border-radius: 10px;
+  padding: 5px 10px;
+}
+
+#search {
+  min-width: 90%;
+  min-height: 100%;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  padding-left: 15px;
+  font-size: x-large;
+}
+
+#search::placeholder {
+  font-size: x-large;
+}
+
+#search_img {
+  position: relative;
+  filter: brightness(.6);
+  height: 80%;
 }
 
 body {
@@ -46,7 +109,6 @@ body {
   display: flex;
   flex-direction: column;
   gap: 40px;
-  top: 150px;
 }
 
 body h1{
@@ -55,7 +117,8 @@ body h1{
 }
 
 .center {
-  width: 100%;
+  width: fit-content !important;
+  display: flex;
   justify-content: center;
   align-items: center;
 }
@@ -89,9 +152,15 @@ footer{
   }
 }
 
+
+
 @media(max-width: 480px){
   footer{
     font-size: xx-small;
+  }
+
+  #search::placeholder {
+    font-size: 60%;
   }
 }
 </style>

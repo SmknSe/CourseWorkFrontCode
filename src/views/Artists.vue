@@ -7,6 +7,12 @@
 
       <body>
         <h1>Информация о самых популярных артистах всего мира</h1>
+        <div class="input_wrap">
+          <div class="center">
+            <font-awesome-icon icon="fa-solid fa-magnifying-glass" id="search_img" />
+          </div>
+          <input type="text" id="search" placeholder="Введите имя артиста" ref="search">
+        </div>
         <div class="gallery_list">
           <Artist_card v-for="artist of artists" v-bind:artist="artist" />
         </div>
@@ -50,6 +56,27 @@ export default {
         { name: "МУККА", desc: "поп-панк и эмо-рок", pic: "mukka.jpg", path: "пижама-с-динозаврами/1553325223", bg: "mukka_back.jpg", album: "Пижама с динозаврами", album_wrap: "pizhama.webp" },
       ]
     }
+  },
+  mounted() {
+    search.addEventListener("keyup", (e) => {
+      let images = document.querySelectorAll(".img_wrapper");
+      let searchValue = search.value
+      if (search.value == "") {
+        images.forEach((image) => {
+          image.style.display = "block";
+        });
+        return
+      }
+      let value = searchValue.toLowerCase();
+      images.forEach((image) => {
+        let name = image.getAttribute('name').toLowerCase()
+        if (name.includes(value)) {
+          return (image.style.display = "block");
+        }
+        image.style.display = "none";
+      });
+      console.log(value);
+    });
   }
 }
 </script>
@@ -64,11 +91,44 @@ export default {
 
 .flex {
   height: 100%;
+  min-height: calc(100vh - 150px);
   display: flex;
   flex-direction: column;
   position: relative;
   top: 150px;
   justify-content: space-between;
+}
+
+.input_wrap {
+  position: relative;
+  display: flex;
+  margin-left: 7.1vw;
+  min-width: 250px;
+  width: 85%;
+  height: 50px;
+  box-shadow: 0px 0px 10px 1px rgb(135, 135, 210);
+  border-radius: 10px;
+  padding: 5px 10px;
+}
+
+#search {
+  min-width: 90%;
+  min-height: 100%;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  padding-left: 15px;
+  font-size: x-large;
+}
+
+#search::placeholder {
+  font-size: x-large;
+}
+
+#search_img {
+  position: relative;
+  filter: brightness(.6);
+  height: 80%;
 }
 
 body {
@@ -84,7 +144,8 @@ body h1 {
 }
 
 .center {
-  width: 100%;
+  width: fit-content !important;
+  display: flex;
   justify-content: center;
   align-items: center;
 }
@@ -107,7 +168,7 @@ body h1 {
 }
 
 footer {
-  position: relative;
+  position: absolute;
   bottom: 0;
   width: 100%;
   text-align: center;
@@ -123,6 +184,10 @@ footer {
 @media(max-width: 480px) {
   footer {
     font-size: xx-small;
+  }
+
+  #search::placeholder {
+    font-size: 60%;
   }
 }
 </style>
